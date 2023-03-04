@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset='utf-8'>
+		<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			window.onload = () => {
+				var socket = io.connect();
+				var widthcount = 1;
+
+				socket.on('watch',(xdata, ydata)=>{
+					Plotly.extendTraces('chart',{y:[[xdata],[ydata]]},[0,1]);
+					widthcount++;
+					if(widthcount>100){
+						Plotly.relayout('chart',{
+							xaxis:{
+								range:[widthcount-99,widthcount]
+							}
+						});
+					}
+				});
+
+
+				socket.on('watch1',(ldata)=>{
+					Plotly.extendTraces('chart',{y:[[ldata]]},[2]);
+				});				
+
+				document.getElementById('start').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('startmsg',text);
+				};
+				document.getElementById('stop').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('stopmsg',text);
+				};
+				
+				document.getElementById('start1').onclick = () =>{
+					var text = document.getElementById('text').value;
+					var text1 = document.getElementById('text1').value;
+					socket.emit('startmsg1',text,text1);
+				};
+				document.getElementById('stop1').onclick = () =>{
+					var text1 = document.getElementById('text1').value;
+					socket.emit('stopmsg1',text1);
+				};
+			}
+		</script>
+	</head>
+	<body bgcolor = "white">
+		<h2>조이스틱 측정</h2>
+		<hr>
+		<input type="text" id="text" value="800"/>ms
+		<input type="button" id="start" value="조이스틱 가동"/>
+		<input type="button" id="stop" value="조이스틱 중지"/>
+		<br>
+		<input type="text" id="text1" value="300">
+		<input type="button" id="start1" value="조도센서 가동"/>
+		<input type="button" id="stop1" value="조도센서 중지"/>
+		<hr>
+		<div id="chart">
+		<script>
+			var joyx = {y:[0], name:'joyX', type:'line',marker:{color:"rgb(255,0,0)"}, line:{shape:'spline'}};
+			var joyy = {y:[0], name:'joyY', type:'line',marker:{color:"rgb(0,0,255)"}, line:{shape:'spline'}};
+			var ldata = {y:[0], name:'ldata', type:'line',marker:{color:"rgb(0,255,0)"}, line:{shape:'spline'}};
+			var data = [joyx, joyy, ldata];
+			Plotly.plot('chart',data);
+		</script>
+		</div>
+	<body>
+</html>
+	

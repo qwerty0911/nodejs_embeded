@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			window.onload = () => {
+				var dataview = document.getElementById("dataview");
+				var socket = io.connect();
+				var html = '';
+
+				socket.on('watch',(data)=>{
+					html+='<b>'+data+'</b><br>';
+					dataview.innerHTML = html;
+				});
+				document.getElementById('start').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('startmsg',text);
+				};
+				document.getElementById('stop').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('stopmsg',text);
+				};
+			}
+		</script>
+	</head>
+	<body bgcolor = "white">
+		<h2>거리측정제어(초음파센서제어)</h2>
+		<hr>
+		<h3>측정주기 설정 및 가동</h3>
+		<h5>측정주기 입력 범위:500~1000(단위:ms)입력값으로 조정가능</h5>
+		<hr>
+		<input type="text" id="text" value="800"/>ms
+		<input type="button" id="start" value="초음센서가동"/>
+		<input type="button" id="stop" value="초음파센서중지"/>
+		<hr>
+		<p id="dataview">초음파센서가동시 이곳에 측정거리값이 출력욉니다.<p>
+	<body>
+</html>
+	
