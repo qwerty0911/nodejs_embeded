@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			window.onload = () => {
+				var socket = io.connect();
+				
+				//socket.on('watch',(data)=>{
+				//});
+				document.getElementById('print').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('printLCD',text);
+				};
+				document.getElementById('clear').onclick = () =>{
+					var text = document.getElementById('text').value;
+					socket.emit('clearLCD',text);
+				};
+			}
+		</script>
+	</head>
+	<body bgcolor = "white">
+		<h2>LCD 화면 출력</h2>
+		<hr>
+		<input type="text" id="text" value="ABCD1234"/>
+		<input type="button" id="print" value="LCD 모듈에 출력"/>
+		<input type="button" id="clear" value="LCD 모듈 clear"/>
+	<body>
+</html>
+	
