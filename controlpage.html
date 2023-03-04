@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <h2 align="center">REST  API깁반의 섭보모터 제어페이지</h2>
+    <hr>
+
+    <p>원격IP주소를 입력한 후,해당 버튼을 누르면,서보모터를 제어할 수 있습니다.</p>
+    <div>
+        <form name=servo action="/servo/?_method=put" method="POST">
+            90도 회전제어:<input type="text" name=userip> 
+            <input type="text" name=degree value="90"> 
+            <input type="submit" value="90도 회전"> 
+        </form>
+        <form name=servo action="/servo/?_method=put" method="POST">
+            180도 회전제어:<input type="text" name=userip> 
+            <input type="text" name=degree value="180"> 
+            <input type="submit" value="180도 회전"> 
+        </form>
+        <form name=servo action="/servo/?_method=put" method="POST">
+            0도 회전제어:<input type="text" name=userip> 
+            <input type="text" name=degree value="0"> 
+            <input type="submit" value="0도 회전"> 
+        </form>
+    </div>
+</body>
+</html>
